@@ -63,6 +63,7 @@
             width: 100%;
             top: 0;
             z-index: 1000;
+            padding-left: 16px;
         }
 
         .sidebar-toggler {

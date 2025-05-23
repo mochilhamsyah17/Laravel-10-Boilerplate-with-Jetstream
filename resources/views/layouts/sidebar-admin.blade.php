@@ -4,6 +4,18 @@
         <a href="{{route('dashboard')}}" class="sidebar-link active">
             <i class="fas fa-home"></i> Dashboard
         </a>
+        <a href="{{route('dashboard')}}" class="sidebar-link active">
+            <i class="fa-solid fa-cart-shopping"></i> Pemesanan
+        </a>
+        <a href="{{route('dashboard')}}" class="sidebar-link active">
+            <i class="fa-solid fa-comments-dollar"></i> Laporan Keuangan
+        </a>
+        <a href="{{route('dashboard')}}" class="sidebar-link active">
+            <i class="fa-solid fa-warehouse"></i> Inventory
+        </a>
+        <a href="{{route('dashboard')}}" class="sidebar-link active">
+            <i class="fa-solid fa-users"></i> User
+        </a>
         <form action="{{ route('logout') }}" method="POST">
             @csrf
 
