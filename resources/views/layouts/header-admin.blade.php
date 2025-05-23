@@ -14,6 +14,14 @@
     <link defer rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon" />
+    <style>
+        /* font poppins */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 
 
     <style>
@@ -64,6 +72,7 @@
             top: 0;
             z-index: 1000;
             padding-left: 16px;
+            padding-right: 16px;
         }
 
         .sidebar-toggler {
