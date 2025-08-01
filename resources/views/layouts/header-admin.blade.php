@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>CMS Job Portal</title>
-
+    <title>Boengsoe</title>
 
     <!-- Global CSS -->
-    <link defer rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
     <link defer rel="stylesheet" href="{{ asset('assets/css/flowbite.min.css') }}">
+    <link defer rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link defer rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon" />
     <style>
@@ -158,6 +158,17 @@
 
     <!-- jQuery & Bootstrap Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#topping_ids').select2({
+                placeholder: 'Pilih Topping',
+                allowClear: true,
+                width: '100%',
+            });
+        });
+    </script>
     <script>
         $(window).on('load', function() {
             setTimeout(function() {
@@ -190,6 +201,7 @@
             button.style.cursor = 'not-allowed';
         }
     </script>
+    @stack('scripts')
 </head>
 
 <body>

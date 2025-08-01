@@ -7,13 +7,13 @@
         <a href="{{route('dashboard')}}" class="sidebar-link active">
             <i class="fa-solid fa-cart-shopping"></i> Pemesanan
         </a>
-        <a href="{{route('dashboard')}}" class="sidebar-link active">
-            <i class="fa-solid fa-comments-dollar"></i> Laporan Keuangan
+        <a href="{{route('topping.index')}}" class="sidebar-link active">
+            <i class="fa-solid fa-comments-dollar"></i> Topping
         </a>
-        <a href="{{route('dashboard')}}" class="sidebar-link active">
+        <a href="{{route('inventory.index')}}" class="sidebar-link active">
             <i class="fa-solid fa-warehouse"></i> Inventory
         </a>
-        <a href="{{route('dashboard')}}" class="sidebar-link active">
+        <a href="{{route('user.index')}}" class="sidebar-link active">
             <i class="fa-solid fa-users"></i> User
         </a>
         <form action="{{ route('logout') }}" method="POST">

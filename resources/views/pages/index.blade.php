@@ -30,35 +30,31 @@
         </div>
     </div>
 
+    <div class="d-flex flex-column gap-2 overflow-scroll" style="max-height: 600px;">
 
-    <div class="d-flex flex-row rounded overflow-hidden" style="height: 200px; border: 2px solid ; border-color: #000;">
-        <img src="{{ asset('assets/images/internet.webp') }}" alt="img" style="width: 35%; height: 100%; object-fit: cover; border: 2px solid #000; border-top-right-radius: 12px; border-bottom-right-radius: 12px;">
-        <div class=" p-3 d-flex flex-column justify-content-between gap-1 flex-grow-1">
-            <div class="d-flex flex-column gap-1">
-                <span class="fs-6 fw-bold">Internet</span>
-                <span class="fw-lighter" style="font-size: 10px;">
-                    Mie yang dipadukan kornet sapi serta telur yang disajikan istimewa kepada anda
-                </span>
-                <span class="fw-bold">Rp. 10.000</span>
+        @foreach($products as $product)
+        <div class="d-flex flex-row rounded overflow-hidden" style="height: 200px; border: 2px solid ; border-color: #000;">
+            <img src="{{ Storage::url($product->imageUrl) }}" alt="{{ $product->name }}" style="width: 35%; height: 100%; object-fit: cover; border: 2px solid #000; border-top-right-radius: 12px; border-bottom-right-radius: 12px;">
+            <div class=" p-3 d-flex flex-column justify-content-between gap-1 flex-grow-1">
+                <div class="d-flex flex-column gap-1">
+                    <span class="fs-6 fw-bold">{{ $product->name }}</span>
+                    <span class="fw-lighter" style="font-size: 10px;">
+                        {{ $product->description }}
+                    </span>
+                    <span class="fw-bold">Rp. {{ number_format($product->price, 0, ',', '.') }}</span>
+                </div>
+                <a href="{{ route('products.index', $product->id) }}" class="py-2 text-white rounded btn" style="background-color: #989898; font-size: 10px;">Tambah</a>
             </div>
-            <button onclick="window.location.href = '{{ route('products.index') }}'" class="py-2 text-white rounded btn" style="background-color: #989898; font-size: 10px;">Tambah</button>
         </div>
+        @endforeach
+
     </div>
 
-    <div class="d-flex flex-row rounded overflow-hidden" style="height: 200px; border: 2px solid ; border-color: #000;">
-        <img src="{{ asset('assets/images/internet.webp') }}" alt="img" style="width: 35%; height: 100%; object-fit: cover; border: 2px solid #000; border-top-right-radius: 12px; border-bottom-right-radius: 12px;">
-        <div class=" p-3 d-flex flex-column justify-content-between gap-1 flex-grow-1">
-            <div class="d-flex flex-column gap-1">
-                <span class="fs-6 fw-bold">Internet</span>
-                <span class="fw-lighter" style="font-size: 10px;">
-                    Mie yang dipadukan kornet sapi serta telur yang disajikan istimewa kepada anda
-                </span>
-                <span class="fw-bold">Rp. 10.000</span>
-            </div>
-            <button onclick="window.location.href = '{{ route('products.index') }}'" class="py-2 text-white rounded btn" style="background-color: #989898; font-size: 10px;">Tambah</button>
-        </div>
+    <div class="fixed-bottom d-flex justify-content-start p-4" style="width: fit-content;">
+        <a href="{{ route('products.checkout') }}" class="btn btn-secondary text-white rounded-circle p-3">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
     </div>
-
 
 </section>
 

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{ route('order.save') }}" method="POST">
+<form action="{{ route('guest.add') }}" method="POST">
     @csrf
     <section class="container flex d-flex flex-column align-items-center justify-content-center gap-4 py-4 px-3">
         <img src="{{ asset('assets/images/logo.webp') }}" alt="logo" class="w-25">
@@ -11,13 +11,14 @@
                 <h2 class="text-center text-sm text-white">Selamat Datang</h2>
                 <p class="text-white" style="font-size: 16px; font-weight: 100">Silakan masukan data diri anda untuk melakukan pemesanan</p>
             </div>
+            @csrf
             <div class="py-2 d-flex flex-column text-start">
                 <label for="name" class="text-white">Nama</label>
                 <input type="text" name="name" id="name" class="py-2 rounded border-none px-2" placeholder="indra" required>
             </div>
             <div class="py-2 mb-4 d-flex flex-column text-start">
-                <label for="no_meja" class="text-white">Nomor Meja</label>
-                <input type="text" name="no_meja" id="no_meja" class="py-2 rounded border-none px-2" placeholder="21" required>
+                <label for="table_number" class="text-white">Nomor Meja</label>
+                <input type="text" name="table_number" id="table_number" class="py-2 rounded border-none px-2" placeholder="21" required>
             </div>
             <button type="submit" class="py-2 mt-4 text-white rounded btn" style="background-color: #989898;">
                 <span>Simpan</span>
