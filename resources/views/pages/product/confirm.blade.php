@@ -4,8 +4,7 @@
 
 <div class="d-flex flex-column gap-4 p-4">
     <div class="d-flex flex-column gap-1 text-center">
-        <span>Tunggu sebentar ya</span>
-        <span>Pesanan kamu sedang diproses</span>
+        <span>Apakah kamu sudah yakin?</span>
     </div>
     <div class="d-flex flex-column gap-4 py-4 px-3 rounded" style="background-color: #D9D9D9;">
         <div class="d-flex flex-column gap-1">
@@ -17,64 +16,64 @@
             @php $totalOrder = 0; @endphp
 
             @foreach($order['items'] as $orderItem)
-                @php
-                    // Hitung harga dasar produk
-                    $productSubtotal = $orderItem['quantity'] * $orderItem['price'];
-                    
-                    // Hitung total harga toppings
-                    $toppingsTotal = 0;
-                    $toppings = $orderItem['toppings'] ?? [];
-                    
-                    // Jika toppings masih JSON string, decode dulu
-                    if (is_string($toppings)) {
-                        $toppings = json_decode($toppings, true);
-                        if (!is_array($toppings)) {
-                            $toppings = [];
-                        }
-                    }
-                    
-                    if (!empty($toppings)) {
-                        foreach ($toppings as $topping) {
-                            $toppingsTotal += floatval($topping['price'] ?? 0);
-                        }
-                    }
-                    
-                    // Total toppings dikalikan dengan quantity
-                    $toppingsSubtotal = $toppingsTotal * $orderItem['quantity'];
-                    
-                    // Subtotal keseluruhan per item = (harga produk + harga toppings) * quantity
-                    $itemSubtotal = $productSubtotal + $toppingsSubtotal;
-                    
-                    // Tambahkan ke total keseluruhan
-                    $totalOrder += $itemSubtotal;
-                @endphp
+            @php
+            // Hitung harga dasar produk
+            $productSubtotal = $orderItem['quantity'] * $orderItem['price'];
 
-                <div class="d-flex flex-row justify-content-between">
-                    <div class="d-flex flex-column gap-1">
-                        <span class="fs-6 fw-bold">{{ $orderItem['name'] ?? 'Product Name' }}</span>
-                        <span style="font-size: 12px;">Qty: {{ $orderItem['quantity'] ?? '-' }}</span>
-                        <span style="font-size: 12px;">
-                            Topping: 
-                            @if(!empty($toppings))
-                                @foreach($toppings as $topping)
-                                    {{ $topping['name'] ?? 'Unknown' }}@if(!$loop->last), @endif
-                                @endforeach
-                            @else
-                                -
-                            @endif
-                        </span>
-                        <span style="font-size: 12px;">Catatan: {{ $orderItem['note'] ?? '-' }}</span>
-                        
-                        {{-- Detail perhitungan (opsional, bisa dihapus jika tidak perlu) --}}
-                        <div style="font-size: 10px; color: #666;">
-                            <div>Harga produk: Rp. {{ number_format($orderItem['price'], 0, ',', '.') }} x {{ $orderItem['quantity'] }}</div>
-                            @if($toppingsTotal > 0)
-                                <div>Harga topping: Rp. {{ number_format($toppingsTotal, 0, ',', '.') }} x {{ $orderItem['quantity'] }}</div>
-                            @endif
-                        </div>
+            // Hitung total harga toppings
+            $toppingsTotal = 0;
+            $toppings = $orderItem['toppings'] ?? [];
+
+            // Jika toppings masih JSON string, decode dulu
+            if (is_string($toppings)) {
+            $toppings = json_decode($toppings, true);
+            if (!is_array($toppings)) {
+            $toppings = [];
+            }
+            }
+
+            if (!empty($toppings)) {
+            foreach ($toppings as $topping) {
+            $toppingsTotal += floatval($topping['price'] ?? 0);
+            }
+            }
+
+            // Total toppings dikalikan dengan quantity
+            $toppingsSubtotal = $toppingsTotal * $orderItem['quantity'];
+
+            // Subtotal keseluruhan per item = (harga produk + harga toppings) * quantity
+            $itemSubtotal = $productSubtotal + $toppingsSubtotal;
+
+            // Tambahkan ke total keseluruhan
+            $totalOrder += $itemSubtotal;
+            @endphp
+
+            <div class="d-flex flex-row justify-content-between">
+                <div class="d-flex flex-column gap-1">
+                    <span class="fs-6 fw-bold">{{ $orderItem['name'] ?? 'Product Name' }}</span>
+                    <span style="font-size: 12px;">Qty: {{ $orderItem['quantity'] ?? '-' }}</span>
+                    <span style="font-size: 12px;">
+                        Topping:
+                        @if(!empty($toppings))
+                        @foreach($toppings as $topping)
+                        {{ $topping['name'] ?? 'Unknown' }}@if(!$loop->last), @endif
+                        @endforeach
+                        @else
+                        -
+                        @endif
+                    </span>
+                    <span style="font-size: 12px;">Catatan: {{ $orderItem['note'] ?? '-' }}</span>
+
+                    {{-- Detail perhitungan (opsional, bisa dihapus jika tidak perlu) --}}
+                    <div style="font-size: 10px; color: #666;">
+                        <div>Harga produk: Rp. {{ number_format($orderItem['price'], 0, ',', '.') }} x {{ $orderItem['quantity'] }}</div>
+                        @if($toppingsTotal > 0)
+                        <div>Harga topping: Rp. {{ number_format($toppingsTotal, 0, ',', '.') }} x {{ $orderItem['quantity'] }}</div>
+                        @endif
                     </div>
-                    <span class="fw-bold">Rp. {{ number_format($itemSubtotal, 0, ',', '.') }}</span>
                 </div>
+                <span class="fw-bold">Rp. {{ number_format($itemSubtotal, 0, ',', '.') }}</span>
+            </div>
             @endforeach
 
             <div class="d-flex flex-row justify-content-between">
@@ -86,7 +85,7 @@
             <form action="{{ route('order.storeOrder') }}" method="POST">
                 @csrf
                 <button type="submit" class="w-100 btn py-2 text-white" style="background-color: #989898; border-radius: 50px;">
-                    Konfirmasi Pesanan
+                    Kirim Pesanan
                 </button>
             </form>
         </div>

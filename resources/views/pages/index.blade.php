@@ -43,18 +43,21 @@
                     </span>
                     <span class="fw-bold">Rp. {{ number_format($product->price, 0, ',', '.') }}</span>
                 </div>
-                <a href="{{ route('products.index', $product->id) }}" class="py-2 text-white rounded btn" style="background-color: #989898; font-size: 10px;">Tambah</a>
+                <a href="{{ route('products.index', $product->id) }}" class="py-2 text-white rounded btn" style="background-color: #2b2b2b; font-size: 10px;">Tambah</a>
             </div>
         </div>
         @endforeach
 
     </div>
 
-    <div class="fixed-bottom d-flex justify-content-start p-4" style="width: fit-content;">
-        <a href="{{ route('products.checkout') }}" class="btn btn-secondary text-white rounded-circle p-3">
+    <div class="fixed-bottom d-flex justify-content-start p-3" style="width: fit-content;">
+        <a href="{{ route('products.checkout') }}"
+            class="btn btn-secondary text-white rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 50px; height: 50px;">
             <i class="fas fa-shopping-cart"></i>
         </a>
     </div>
+
 
 </section>
 

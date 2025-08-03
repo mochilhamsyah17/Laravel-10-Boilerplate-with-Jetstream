@@ -84,7 +84,7 @@
                 Refresh Status
             </button>
             @if($orderData->status == 'completed')
-                <button onclick="window.location.href = '{{ route('products.index') }}'" class="flex-fill btn py-2 text-white" style="background-color: #28a745; border-radius: 50px;">
+                <button onclick="window.location.href = '{{ route('dashboard.index') }}'" class="flex-fill btn py-2 text-white" style="background-color: #28a745; border-radius: 50px;">
                     Pesan Lagi
                 </button>
             @endif

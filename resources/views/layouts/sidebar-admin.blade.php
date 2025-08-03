@@ -4,7 +4,7 @@
         <a href="{{route('dashboard')}}" class="sidebar-link active">
             <i class="fas fa-home"></i> Dashboard
         </a>
-        <a href="{{route('dashboard')}}" class="sidebar-link active">
+        <a href="{{route('pemesanan.index')}}" class="sidebar-link active">
             <i class="fa-solid fa-cart-shopping"></i> Pemesanan
         </a>
         <a href="{{route('topping.index')}}" class="sidebar-link active">

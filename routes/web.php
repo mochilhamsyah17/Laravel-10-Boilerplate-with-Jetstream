@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ToppingController;
 use App\Http\Controllers\UserController;
@@ -49,7 +51,7 @@ Route::post('/order/save', function (Request $request) {
 
 Route::middleware([
     'auth:sanctum',
-    'role:1',
+    'role:1,2',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -71,6 +73,9 @@ Route::middleware([
     Route::get('/admin/topping', [ToppingController::class, 'index'])->name('topping.index');
     Route::get('/admin/topping/create', [ToppingController::class, 'create'])->name('topping.create');
     Route::post('/admin/topping/create', [ToppingController::class, 'store'])->name('topping.store');
+
+    // Confrimation Controller
+    Route::get('/admin/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
 });
 
 // routes/web.php
