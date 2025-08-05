@@ -32,27 +32,47 @@
             $toppings = $orderItem['toppings'] ?? [];
             // Pastikan toppings adalah array
             if (is_string($toppings)) {
-                $toppings = json_decode($toppings, true) ?: [];
+            $toppings = json_decode($toppings, true) ?: [];
             }
-            
+
             $toppingTotal = 0;
             foreach ($toppings as $topping) {
-                $toppingTotal += is_array($topping) ? ($topping['price'] ?? 0) : (is_object($topping) ? $topping->price : 0);
+            $toppingTotal += is_array($topping) ? ($topping['price'] ?? 0) : (is_object($topping) ? $topping->price : 0);
             }
 
             $productTotal = ($orderItem['price'] * $orderItem['quantity']) + ($toppingTotal * $orderItem['quantity']);
             $subTotal += $productTotal;
             @endphp
-            
+
             <!-- ✅ CARD ITEM -->
-            <div class="d-flex flex-row rounded overflow-hidden p-3 gap-3 text-white order-card"
+            <div class="d-flex flex-row rounded overflow-hidden p-3 gap-3 text-white order-card position-relative"
                 style="min-height: 200px; background-color: #535353;"
                 data-price="{{ $orderItem['price'] }}"
                 data-topping="{{ $toppingTotal }}"
                 data-key="{{ $key }}">
 
-                <img src="{{ isset($orderItem['imageUrl']) ? Storage::url($orderItem['imageUrl']) : asset('assets/images/bibimbap.webp') }}" alt="img" class="rounded" style="width: 35%; height: 100%; object-fit: cover;">
+                <!-- ✅ Tombol Delete di pojok kanan atas -->
+                <i class="fa-solid fa-circle-xmark position-absolute top-0 end-0 m-2 text-white cursor-pointer border-0 rounded-circle delete-item" data-key="{{ $key }}"></i>
+                
+                <div class="d-flex flex-column gap-1" style="width: 35%;">
+                    <img src="{{ isset($orderItem['imageUrl']) ? Storage::url($orderItem['imageUrl']) : asset('assets/images/bibimbap.webp') }}" alt="img" class="rounded" style="height: 100%; object-fit: cover;">
+                    
+                    <!-- ✅ Quantity Box -->
+                    <div class="d-flex flex-row gap-3 py-1 px-3 fw-bold text-black rounded justify-content-between align-items-center"
+                        style="background-color: #D9D9D9; height: fit-content;">
+                    
+                        <button type="button"
+                            class="qty-btn border-0 bg-transparent fs-5"
+                            data-key="{{ $key }}" data-change="-1">−</button>
 
+                        <span id="qty-display-{{ $key }}">{{ $orderItem['quantity'] }}</span>
+
+                        <button type="button"
+                            class="qty-btn border-0 bg-transparent fs-5"
+                            data-key="{{ $key }}" data-change="1">+</button>
+                    </div>
+                </div>
+                    
                 <!-- ✅ Info Produk -->
                 <div class="d-flex flex-column justify-content-between gap-2 flex-grow-1">
                     <div class="d-flex flex-row justify-content-between">
@@ -79,20 +99,6 @@
                                 Total Item: <b id="item-total-{{ $key }}">Rp{{ number_format($productTotal, 0, ',', '.') }}</b>
                             </small>
                         </div>
-
-                        <!-- ✅ Quantity Box -->
-                        <div class="d-flex flex-row gap-3 py-1 px-3 fw-bold text-black rounded justify-content-between align-items-center"
-                            style="background-color: #D9D9D9; height: fit-content;">
-                            <button type="button"
-                                class="qty-btn border-0 bg-transparent fs-5"
-                                data-key="{{ $key }}" data-change="-1">−</button>
-
-                            <span id="qty-display-{{ $key }}">{{ $orderItem['quantity'] }}</span>
-
-                            <button type="button"
-                                class="qty-btn border-0 bg-transparent fs-5"
-                                data-key="{{ $key }}" data-change="1">+</button>
-                        </div>
                     </div>
 
                     <!-- ✅ Catatan -->
@@ -104,18 +110,19 @@
                 </div>
             </div>
 
+
             <!-- ✅ Hidden Inputs (agar data terkirim) -->
             <input type="hidden" name="order_items[{{ $key }}][product_id]" value="{{ $orderItem['product_id'] }}">
             <input type="hidden" name="order_items[{{ $key }}][price]" value="{{ $orderItem['price'] }}">
             <input type="hidden" name="order_items[{{ $key }}][quantity]" id="qty-input-{{ $key }}" value="{{ $orderItem['quantity'] }}">
-            
+
             <!-- ✅ Improved toppings handling -->
             @if(!empty($toppings))
-                @foreach($toppings as $toppingIndex => $topping)
-                <input type="hidden" name="order_items[{{ $key }}][toppings][{{ $toppingIndex }}][id]" value="{{ is_array($topping) ? ($topping['id'] ?? '') : (is_object($topping) ? $topping->id : '') }}">
-                <input type="hidden" name="order_items[{{ $key }}][toppings][{{ $toppingIndex }}][name]" value="{{ is_array($topping) ? ($topping['name'] ?? '') : (is_object($topping) ? $topping->name : '') }}">
-                <input type="hidden" name="order_items[{{ $key }}][toppings][{{ $toppingIndex }}][price]" value="{{ is_array($topping) ? ($topping['price'] ?? 0) : (is_object($topping) ? $topping->price : 0) }}">
-                @endforeach
+            @foreach($toppings as $toppingIndex => $topping)
+            <input type="hidden" name="order_items[{{ $key }}][toppings][{{ $toppingIndex }}][id]" value="{{ is_array($topping) ? ($topping['id'] ?? '') : (is_object($topping) ? $topping->id : '') }}">
+            <input type="hidden" name="order_items[{{ $key }}][toppings][{{ $toppingIndex }}][name]" value="{{ is_array($topping) ? ($topping['name'] ?? '') : (is_object($topping) ? $topping->name : '') }}">
+            <input type="hidden" name="order_items[{{ $key }}][toppings][{{ $toppingIndex }}][price]" value="{{ is_array($topping) ? ($topping['price'] ?? 0) : (is_object($topping) ? $topping->price : 0) }}">
+            @endforeach
             @endif
             @endforeach
         </div>
@@ -186,27 +193,60 @@
             qtyInput.value = newQty;
 
             // ✅ Kirim AJAX ke backend
-            fetch('{{ route('order.updateQty') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    key: key,
-                    quantity: newQty
+            fetch('{{ route('order.updateQty') }}',{
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            key: key,
+                            quantity: newQty
+                        })
+                    })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateTotal(); // ✅ Re-hit total
+                    } else {
+                        alert('Gagal update qty!');
+                    }
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    updateTotal(); // ✅ Re-hit total
-                } else {
-                    alert('Gagal update qty!');
-                }
-            })
-            .catch(err => console.error(err));
+                .catch(err => console.error(err));
         });
     });
+
+    // ✅ Event listener tombol hapus
+document.querySelectorAll('.delete-item').forEach(button => {
+    button.addEventListener('click', function () {
+        const key = this.dataset.key;
+
+        // Hapus elemen item dari DOM
+        const itemCard = document.querySelector(`.order-card[data-key="${key}"]`);
+        const inputElements = document.querySelectorAll(`input[name^="order_items[${key}]"]`);
+
+        if (itemCard) itemCard.remove();
+        inputElements.forEach(input => input.remove());
+
+        // Update total
+        updateTotal();
+
+        // (Opsional) Kirim ke backend untuk hapus dari session
+        fetch('{{ route('order.removeItem') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ key: key })
+        }).then(response => response.json())
+          .then(data => {
+              if (!data.success) {
+                  alert('Gagal menghapus item dari sesi!');
+              }
+          }).catch(console.error);
+    });
+});
+
 </script>
 @endsection

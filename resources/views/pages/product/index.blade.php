@@ -68,10 +68,29 @@
         </div>
     </form>
 
-    <div class="fixed-bottom d-flex justify-content-start p-4" style="width: fit-content;">
-        <a href="{{ route('products.checkout') }}" class="btn btn-secondary text-white rounded-circle p-3">
-            <i class="fas fa-shopping-cart"></i>
-        </a>
+
+    <div class="fixed-bottom d-flex justify-content-start p-3" style="width: fit-content;">
+        <div style="position: relative;">
+            <a href="{{ route('products.checkout') }}"
+                class="btn btn-secondary text-white rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 50px; height: 50px;">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+
+            @if($order)
+            <!-- 🔴 Dot merah kecil -->
+            <span style="
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 12px;
+                height: 12px;
+                background-color: red;
+                border-radius: 50%;
+                border: 2px solid white;
+            "></span>
+            @endif
+        </div>
     </div>
 
 </section>

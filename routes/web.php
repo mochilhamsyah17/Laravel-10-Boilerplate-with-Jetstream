@@ -35,6 +35,8 @@ Route::get('/detail-products/{id}', [ProductController::class, 'index'])->name('
 
 Route::get('/checkout', [ProductController::class, 'checkout'])->name('products.checkout');
 Route::post('/checkout', [ProductController::class, 'store'])->name('checkout.store');
+Route::post('/order/remove-item', [ProductController::class, 'removeItem'])->name('order.removeItem');
+
 
 Route::get('/confirm', [ProductController::class, 'confirm'])->name('products.confirm');
 
@@ -74,8 +76,10 @@ Route::middleware([
     Route::get('/admin/topping/create', [ToppingController::class, 'create'])->name('topping.create');
     Route::post('/admin/topping/create', [ToppingController::class, 'store'])->name('topping.store');
 
-    // Confrimation Controller
+    // Pemesanan Controller
     Route::get('/admin/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
+    Route::put('/admin/pemesanan/{id}', [PemesananController::class, 'updateStatus'])->name('pemesanan.updateStatus');
+    Route::get('/admin/pemesanan/detail/{id}', [PemesananController::class, 'detail'])->name('pemesanan.detail');
 });
 
 // routes/web.php

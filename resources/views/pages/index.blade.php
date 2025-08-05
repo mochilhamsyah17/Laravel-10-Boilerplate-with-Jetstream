@@ -11,24 +11,32 @@
 
     <div class="scroll-x-hidden rounded" style="border: 2px solid #000;">
         <div class="p-3 d-flex flex-row justify-content-between" style="min-width: max-content;">
-            <div class="d-flex flex-column text-center align-items-center justify-content-center me-3">
+            <a href="{{ route('dashboard.index', ['category' => 'makanan']) }}"
+                class="d-flex flex-column text-center align-items-center justify-content-center me-3 text-decoration-none text-dark">
                 <img src="{{ asset('assets/images/bibimbap.webp') }}" alt="food" style="width: 60px;">
                 <span class="fs-6">Makanan</span>
-            </div>
-            <div class="d-flex flex-column text-center align-items-center justify-content-center me-3">
+            </a>
+
+            <a href="{{ route('dashboard.index', ['category' => 'softdrink']) }}"
+                class="d-flex flex-column text-center align-items-center justify-content-center me-3 text-decoration-none text-dark">
                 <img src="{{ asset('assets/images/drink.webp') }}" alt="drink" style="width: 60px;">
                 <span class="fs-6">Minuman</span>
-            </div>
-            <div class="d-flex flex-column text-center align-items-center justify-content-center me-3">
+            </a>
+
+            <a href="{{ route('dashboard.index', ['category' => 'kopi']) }}"
+                class="d-flex flex-column text-center align-items-center justify-content-center me-3 text-decoration-none text-dark">
                 <img src="{{ asset('assets/images/coffee-cup.webp') }}" alt="coffee" style="width: 60px;">
                 <span class="fs-6">Kopi</span>
-            </div>
-            <div class="d-flex flex-column text-center align-items-center justify-content-center">
+            </a>
+
+            <a href="{{ route('dashboard.index', ['category' => 'snack']) }}"
+                class="d-flex flex-column text-center align-items-center justify-content-center text-decoration-none text-dark">
                 <img src="{{ asset('assets/images/snack.webp') }}" alt="snack" style="width: 60px;">
                 <span class="fs-6">Snack</span>
-            </div>
+            </a>
         </div>
     </div>
+
 
     <div class="d-flex flex-column gap-2 overflow-scroll" style="max-height: 600px;">
 
@@ -48,15 +56,40 @@
         </div>
         @endforeach
 
+        @if($products->isEmpty())
+        <div class="d-flex flex-column align-items-center justify-content-center" style="height: 200px;">
+            <span class="fw-bold text-capitalize">
+                {{ $category ? ucfirst($category) . ' tidak ada' : 'Tidak ada data' }}
+            </span>
+        </div>
+        @endif
+
     </div>
 
     <div class="fixed-bottom d-flex justify-content-start p-3" style="width: fit-content;">
-        <a href="{{ route('products.checkout') }}"
-            class="btn btn-secondary text-white rounded-circle d-flex align-items-center justify-content-center"
-            style="width: 50px; height: 50px;">
-            <i class="fas fa-shopping-cart"></i>
-        </a>
+        <div style="position: relative;">
+            <a href="{{ route('products.checkout') }}"
+                class="btn btn-secondary text-white rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 50px; height: 50px;">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+
+            @if($order)
+            <!-- 🔴 Dot merah kecil -->
+            <span style="
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 12px;
+                height: 12px;
+                background-color: red;
+                border-radius: 50%;
+                border: 2px solid white;
+            "></span>
+            @endif
+        </div>
     </div>
+
 
 
 </section>

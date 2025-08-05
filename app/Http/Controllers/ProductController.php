@@ -14,8 +14,9 @@ class ProductController extends Controller
     public function index($id)
     {
         $product = Product::find($id);
+        $order = session('order');
 
-        return view('pages.product.index', compact('product'));
+        return view('pages.product.index', compact('product', 'order'));
     }
     public function checkout()
     {
@@ -41,12 +42,24 @@ class ProductController extends Controller
         ]);
     }
 
-    public function deleteOrderItem(Request $request)
+    public function removeItem(Request $request)
     {
-        $orderItems = session('order');
-        unset($orderItems[$request->key]);
-        session()->put('order', $orderItems);
-        return redirect()->route('pages.product.checkout');
+        $key = $request->key;
+
+        // Ambil isi session 'order'
+        $order = session('order', []);
+
+        // Cek apakah key-nya ada
+        if (isset($order[$key])) {
+            unset($order[$key]); // Hapus berdasarkan index array
+
+            // Reset ulang session-nya
+            session(['order' => array_values($order)]); // Reindex supaya key-nya rapih
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 404);
     }
 
     public function storeOrder(Request $request)
